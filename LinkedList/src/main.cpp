@@ -26,5 +26,10 @@ int main(int argc, char **argv)
     ll.PopFront();
     ll.PrintList();
 
+    std::cout << "Set!\n";
+    ll.SetNode(1, 333);
+    ll.SetNode(ll.GetLength() - 1, 77);
+    ll.PrintList();
+
     return 0;
 }

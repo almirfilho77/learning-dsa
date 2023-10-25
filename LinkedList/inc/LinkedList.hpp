@@ -20,6 +20,8 @@ public:
     bool Insert(Ty value, int index);
     void PopBack();
     void PopFront();
+    Node<Ty> *GetNode(int index);
+    bool SetNode(int index, Ty value);
 
     inline Node<Ty> *GetHead() { return m_head; }
     inline unsigned int GetLength() const { return m_length; }
@@ -87,15 +89,9 @@ void LinkedList<Ty>::Prepend(Ty value)
 template <class Ty>
 bool LinkedList<Ty>::Insert(Ty value, int index)
 {
-    if (index < 0)
+    if (index < 0 || index >= m_length)
     {
-        std::cerr << "Cannot insert a node at negative index\n";
-        return false;
-    }
-
-    if (index >= m_length)
-    {
-        std::cerr << "Invalid index... biggest valid index to add nodes is " << m_length - 1 << '\n';
+        std::cerr << "Invalid index!\n";
         return false;
     }
 
@@ -165,6 +161,57 @@ void LinkedList<Ty>::PopFront()
     m_head = temp->next;
     delete temp;
     m_length--;
+}
+
+template <class Ty>
+Node<Ty> *LinkedList<Ty>::GetNode(int index)
+{
+    if (index < 0 || index >= m_length)
+    {
+        std::cerr << "Invalid index!\n";
+        return nullptr;
+    }
+
+    Node<Ty> *temp = m_head;
+    for (unsigned int i = 0; i < index; i++)
+    {
+        temp = temp->next;
+    }
+    return temp;
+
+    /*
+        I thought about doing this:
+
+        .
+        .
+        .
+            return nullptr;
+        }
+
+        if (index == 0) return m_head;
+        if (index == m_length - 1) return m_tail;
+        Node<Ty> *temp = m_head->next;
+        for (unsigned int i = 1; i < index; i++)
+        .
+        .
+        .
+
+        But I realized that the gains would only exist for the best case and worst case,
+        but for all other cases it would represent one operation more than necessary.
+    */
+}
+
+template <class Ty>
+bool LinkedList<Ty>::SetNode(int index, Ty value)
+{
+    Node<Ty> *changingNode = GetNode(index);
+    if (changingNode == nullptr)
+    {
+        std::cerr << "Failed to set value for the selected node!\n";
+        return false;
+    }
+    changingNode->value = value;
+    return true;
 }
 
 template <class Ty>
