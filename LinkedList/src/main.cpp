@@ -16,5 +16,15 @@ int main(int argc, char **argv)
     ll.Insert(50, ll.GetLength() - 2);
     ll.PrintList();
 
+    std::cout << "Popback 2x!\n";
+    ll.PopBack();
+    ll.PopBack();
+    ll.PrintList();
+
+    std::cout << "Popfront 2x!\n";
+    ll.PopFront();
+    ll.PopFront();
+    ll.PrintList();
+
     return 0;
 }

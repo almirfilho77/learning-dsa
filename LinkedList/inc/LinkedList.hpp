@@ -18,6 +18,8 @@ public:
     void Append(Ty value);
     void Prepend(Ty value);
     bool Insert(Ty value, int index);
+    void PopBack();
+    void PopFront();
 
     inline Node<Ty> *GetHead() { return m_head; }
     inline unsigned int GetLength() const { return m_length; }
@@ -50,17 +52,35 @@ template <class Ty>
 void LinkedList<Ty>::Append(Ty value)
 {
     Node<Ty> *newNode = new Node(value);
-    m_tail->next = newNode;
-    m_tail = newNode;
-    m_length++;
+    if (m_length == 0)
+    {
+        m_head = newNode;
+        m_tail = newNode;
+        m_length = 1;
+    }
+    else
+    {
+        m_tail->next = newNode;
+        m_tail = newNode;
+        m_length++;
+    }
+
 }
 
 template <class Ty>
 void LinkedList<Ty>::Prepend(Ty value)
 {
     Node<Ty> *newNode = new Node(value);
-    newNode->next = m_head;
-    m_head = newNode;
+    if (m_length == 0)
+    {
+        m_head = newNode;
+        m_tail = newNode;
+    }
+    else
+    {
+        newNode->next = m_head;
+        m_head = newNode;
+    }
     m_length++;
 }
 
@@ -87,7 +107,6 @@ bool LinkedList<Ty>::Insert(Ty value, int index)
 
     Node<Ty> *newNode = new Node(value);
     Node<Ty> *temp = m_head;
-
     for (unsigned int i = 1; i < index; i++)
     {
         temp = temp->next;
@@ -99,12 +118,68 @@ bool LinkedList<Ty>::Insert(Ty value, int index)
 }
 
 template <class Ty>
+void LinkedList<Ty>::PopBack()
+{
+    if (m_length == 0)
+    {
+        return;
+    }
+
+    if (m_length == 1)
+    {
+        delete m_head;
+        m_tail = nullptr;
+        m_head = nullptr;
+        m_length = 0;
+        return;
+    }
+
+    Node<Ty> *temp = m_head;
+    for (unsigned int i = 1; i < m_length - 1; i++)
+    {
+        temp = temp->next;
+    }
+    temp->next = nullptr;
+    m_tail = temp;
+    m_length--;
+}
+
+template <class Ty>
+void LinkedList<Ty>::PopFront()
+{
+    if (m_length == 0)
+    {
+        return;
+    }
+
+    if (m_length == 1)
+    {
+        delete m_head;
+        m_tail = nullptr;
+        m_head = nullptr;
+        m_length = 0;
+        return;
+    }
+
+    Node<Ty> *temp = m_head;
+    m_head = temp->next;
+    delete temp;
+    m_length--;
+}
+
+template <class Ty>
 void LinkedList<Ty>::PrintList() const
 {
+    if (m_length == 0)
+    {
+        std::cout << "The list is empty!\n";
+        return;
+    }
+
     Node<Ty> *it = m_head;
-    do
+    while(it != nullptr)
     {
         std::cout << it->value << '\n';
         it = it->next;
-    }while (it != nullptr);
+    }
 }
