@@ -15,18 +15,22 @@ private:
 public:
     LinkedList(Ty value);
     ~LinkedList();
+
     void Append(Ty value);
     void Prepend(Ty value);
-    bool Insert(Ty value, int index);
     void PopBack();
     void PopFront();
-    Node<Ty> *GetNode(int index);
+    void Reverse();
+    void PrintList() const;
+
+    bool Insert(Ty value, int index);
+    bool Delete(int index);
     bool SetNode(int index, Ty value);
 
+    Node<Ty> *GetNode(int index);
     inline Node<Ty> *GetHead() { return m_head; }
-    inline unsigned int GetLength() const { return m_length; }
 
-    void PrintList() const;
+    inline unsigned int GetLength() const { return m_length; }
 };
 
 template <class Ty>
@@ -89,7 +93,7 @@ void LinkedList<Ty>::Prepend(Ty value)
 template <class Ty>
 bool LinkedList<Ty>::Insert(Ty value, int index)
 {
-    if (index < 0 || index >= m_length)
+    if (index < 0 || index > m_length)
     {
         std::cerr << "Invalid index!\n";
         return false;
@@ -101,15 +105,46 @@ bool LinkedList<Ty>::Insert(Ty value, int index)
         return true;
     }
 
-    Node<Ty> *newNode = new Node(value);
-    Node<Ty> *temp = m_head;
-    for (unsigned int i = 1; i < index; i++)
+    if (index == m_length)
     {
-        temp = temp->next;
+        Append(value);
+        return true;
     }
+
+    Node<Ty> *newNode = new Node(value);
+    Node<Ty> *temp = GetNode(index - 1);
     newNode->next = temp->next;
     temp->next = newNode;
     m_length++;
+    return true;
+}
+
+template <class Ty>
+bool LinkedList<Ty>::Delete(int index)
+{
+    if (index < 0 || index >= m_length)
+    {
+        std::cerr << "Invalid index!\n";
+        return false;
+    }
+
+    if (index == 0)
+    {
+        PopFront();
+        return true;
+    }
+
+    if (index == m_length - 1)
+    {
+        PopBack();
+        return true;
+    }
+
+    Node<Ty> *temp = GetNode(index - 1);
+    Node<Ty> *deletingNode = temp->next;
+    temp->next = deletingNode->next;
+    delete deletingNode;
+    m_length--;
     return true;
 }
 
@@ -212,6 +247,38 @@ bool LinkedList<Ty>::SetNode(int index, Ty value)
     }
     changingNode->value = value;
     return true;
+}
+
+template <class Ty>
+void LinkedList<Ty>::Reverse()
+{
+    if (m_length == 0)
+    {
+        std::cerr << "The list is empty!\n";
+        return;
+    }
+
+    if (m_length == 1)
+    {
+        std::cout << "The list has only one element!\n";
+        return;
+    }
+
+    Node<Ty> *temp = m_head;
+    m_head = m_tail;
+    m_tail = temp;
+
+    temp = m_tail->next;
+    Node<Ty> *prev = m_tail;
+    m_tail->next = nullptr;
+    Node<Ty> *next = temp;
+    while (temp != nullptr)
+    {
+        next = temp->next;
+        temp->next = prev;
+        prev = temp;
+        temp = next;
+    }
 }
 
 template <class Ty>

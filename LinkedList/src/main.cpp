@@ -31,5 +31,13 @@ int main(int argc, char **argv)
     ll.SetNode(ll.GetLength() - 1, 77);
     ll.PrintList();
 
+    std::cout << "Delete node!\n";
+    ll.Delete(1);
+    ll.PrintList();
+
+    std::cout << "Reverse list!\n";
+    ll.Reverse();
+    ll.PrintList();
+
     return 0;
 }
