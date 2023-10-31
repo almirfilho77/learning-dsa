@@ -62,14 +62,13 @@ void LinkedList<Ty>::Append(Ty value)
     {
         m_head = newNode;
         m_tail = newNode;
-        m_length = 1;
     }
     else
     {
         m_tail->next = newNode;
         m_tail = newNode;
-        m_length++;
     }
+    m_length++;
 
 }
 
@@ -153,6 +152,7 @@ void LinkedList<Ty>::PopBack()
 {
     if (m_length == 0)
     {
+        std::cerr << "The list is empty!\n";
         return;
     }
 
