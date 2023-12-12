@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 {
     std::cout << "Double Linked list!\n";
     std::cout << "Constructor!\n";
-    DoubleLinkedList<int> dll(1);
+    DoubleLinked::DoubleLinkedList<int> dll(1);
     dll.PrintList();
 
     std::cout << "Append!\n";

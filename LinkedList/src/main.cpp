@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 {
     std::cout << "Linked list!\n";
 
-    LinkedList<int> ll(10);
+    SingleLinked::LinkedList<int> ll(10);
     ll.Append(12);
     ll.Prepend(3);
     ll.Append(8);
