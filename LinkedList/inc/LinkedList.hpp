@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Node.hpp"
+#include "SLNode.hpp"
 
 namespace SingleLinked
 {

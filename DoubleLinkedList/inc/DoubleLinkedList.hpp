@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Node.hpp"
+#include "DLNode.hpp"
 
 namespace DoubleLinked
 {

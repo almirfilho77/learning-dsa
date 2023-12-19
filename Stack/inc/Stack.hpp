@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "LinkedList.hpp"
+#include "SLNode.hpp"
 
 template <class Ty>
 class Stack
@@ -55,6 +55,32 @@ Ty Stack<Ty>::Pop()
     if (m_height == 0)
     {
         throw std::runtime_error("The stack is empty");
+    }
+    auto temp = m_top;
+    m_top = m_top->next;
+    m_height--;
+    return temp->value;
+}
+
+template <>
+std::string Stack<std::string>::Pop()
+{
+    if (m_height == 0)
+    {
+        return "";
+    }
+    auto temp = m_top;
+    m_top = m_top->next;
+    m_height--;
+    return temp->value;
+}
+
+template <>
+int Stack<int>::Pop()
+{
+    if (m_height == 0)
+    {
+        return INT32_MIN;
     }
     auto temp = m_top;
     m_top = m_top->next;

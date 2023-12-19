@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "LinkedList.hpp"
+#include "SLNode.hpp"
 
 template <class Ty>
 class Queue
@@ -51,6 +51,52 @@ Ty Queue<Ty>::Dequeue()
     if (m_length == 0)
     {
         throw std::runtime_error("The queue is empty!");
+    }
+
+    auto temp = m_first;
+    auto dequeue_val = m_first->value;
+    if (m_length == 1)
+    {
+        m_first = m_last = nullptr;
+    }
+    else
+    {
+        m_first = m_first->next;
+    }
+    delete temp;
+    m_length--;
+    return dequeue_val;
+}
+
+template <>
+std::string Queue<std::string>::Dequeue()
+{
+    if (m_length == 0)
+    {
+        return "";
+    }
+
+    auto temp = m_first;
+    auto dequeue_val = m_first->value;
+    if (m_length == 1)
+    {
+        m_first = m_last = nullptr;
+    }
+    else
+    {
+        m_first = m_first->next;
+    }
+    delete temp;
+    m_length--;
+    return dequeue_val;
+}
+
+template <>
+int Queue<int>::Dequeue()
+{
+    if (m_length == 0)
+    {
+        return INT32_MIN;
     }
 
     auto temp = m_first;
